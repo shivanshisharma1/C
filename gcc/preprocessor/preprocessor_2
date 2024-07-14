@@ -1,0 +1,181 @@
+** PREPROCESSOR STAGE : **
+---------------------------
+
+In C programming, the preprocessor is a tool that processes your source code
+before it is compiled. It allows you to define constants, include header files,
+and perform conditional compilation.
+
+Here is a simple explanation of how the preprocessor works in a C project:
+
+1. **Include files:** 
+-----------------------
+
+You can use `#include` directive to include header files 
+in your code. This allows you to use functions and definitions from other files 
+in your program.
+Let's take the first program that most of us did , including me as an example
+--------------------------------------------------------------------------------
+** preprocessor_1.c
+------------------ 
+#include <stdio.h>
+ void main()
+{ printf("hello world\n");
+}
+--------------------------------------------------------------------------------
+Here we're making use of the "include" preprocessor, which is a directive that
+the program considers first. It's a header file that enables us to use 
+functions from other files. In this case, the file is "stdio.h" and 
+the function is "printf"
+
+--------------------------------------------------------------------------------
+** preprocessor_1.i
+--------------------
+ void main()
+ { printf("hello world\n");
+ }
+--------------------------------------------------------------------------------
+now So, to compile, we used "gcc -E filename.c -o filename.i." This command 
+halts the compilation after the initial step, which involves removing the 
+preprocessor and executing all subsequent commands. In this case, "filename.c" 
+is the file with the preprocessor, and it has been compiled into "filename.i," 
+where all the directives under "include" have been processed. 
+
+--------------------------------------------------------------------------------
+** format:
+extern int printf (const char *__restrict __format, ...);
+-------------------------------------------------------------------------------- 
+the compilation program also shows the format of function printf which tells us 
+that it returns an integer and takes at least one argument (a string), plus 
+additional optional arguments.
+
+2. **Define constants:** 
+--------------------------
+You can use `#define` directive to define constants 
+that can be used throughout your code. For example, you can define
+`#define PI 3.14159` and then use `PI` in your code wherever you wish. 
+
+--------------------------------------------------------------------------------
+** preprocessor_1b.c
+--------------------- 
+#include <stdio.h>
+ #define NUMBER 7
+ int main() {
+ int myFavoriteNumber = NUMBER ;
+ printf("My favorite number is %d!\n", myFavoriteNumber);
+ return 0;
+ }
+--------------------------------------------------------------------------------
+In this code, we utilize a 'define' processor to substitute every instance of 
+'NUMBER' with 7. The preprocessor prioritizes this directive and we capitalize 
+the word 'NUMBER' to make it prominent. This processor is beneficial when we
+ want to modify values in a lengthy code without making changes everywhere. 
+By defining it at the top, we ensure its availability where needed.
+
+--------------------------------------------------------------------------------
+** preprocessor_1b.i
+--------------------
+int main() {   
+ int myFavoriteNumber = 7 ;
+
+    printf("My favorite number is %d!\n", myFavoriteNumber);
+
+    return 0;
+}
+
+--------------------------------------------------------------------------------
+**output :
+My favorite number is 7!
+--------------------------------------------------------------------------------
+
+here we used the command:
+*****  gcc -E preprocessor_1b.c preprocessor_1b. *****
+The 'gcc -E' in the command is used to halt the compiler after removing the 
+preprocessor and completing all directives under it. In this case, the 'define' 
+directive changes every occurrence of the word 'number' to '7', giving us the 
+output 'My favourite number is 7'. The resulting file, preprocessor_1b.i, 
+contains only plain c code as shown above.
+
+3. **Conditional compilation:**
+-------------------------------- 
+You can use `#ifdef`, `#ifndef`, `#else`, and `#endif` directives to 
+conditionally compile parts of your code. This is useful
+for including or excluding code based on certain conditions.
+
+--------------------------------------------------------------------------------
+ ** preprocessor_1c.i
+  --------------------
+ 
+#include <stdio.h>
+
+ #define SQUARE(x) (x * x)
+ #ifdef SQUARE_FORMULA
+     #define FORMULA(x) SQUARE(x
+ #else
+     #define FORMULA(x) (2 * x)
+ #endif
+ 
+ int main() {
+     int num = 5;
+     printf("Number: %d\n", num);
+     printf("Result: %d\n", FORMULA(num));
+     return 0;
+}
+--------------------------------------------------------------------------------
+Here’s what it means in the code example provided:
+
+*******************************
+ #define SQUARE(x) (x * x)
+******************************
+this is a macro definition which gets replaced by there definition during
+compilation.
+SQUARE(x) is used to define we are computing x with the argument 
+
+
+****************************
+#ifdef SQUARE_FORMULA
+#define FORMULA(x) SQUARE(x)
+#else
+#define FORMULA(x) (2 * x)
+#endif
+*****************************
+
+In this extract :
+
+** `#ifdef SQUARE_FORMULA` checks if the macro `SQUARE_FORMULA` is defined.
+if SQUARE_FORMULA` is defined (`#ifdef`), then `#define FORMULA(x) SQUARE(x)` 
+is used, which means the `FORMULA` macro will compute the square of `x`.
+**If SQUARE_FORMULA` is not defined (`#else`), then `#define FORMULA(x) 
+(2 * x)` is used, which means the `FORMULA` macro will compute `2 * x `.
+** The `#endif` directive marks the end of the conditional block
+(`#ifdef`/`#else`). It tells the compiler that the conditional compilation
+for this block is complete.
+
+--------------------------------------------------------------------------------
+**it will show output :
+----------------------
+shivanshi@shivanshi-VirtualBox:~/learn/gcc/preprocessor$ vim preprocessor_1c.c
+shivanshi@shivanshi-VirtualBox:~/learn/gcc/preprocessor$ gcc preprocessor_1c.c
+shivanshi@shivanshi-VirtualBox:~/learn/gcc/preprocessor$ ./a.out
+Number: 5
+Result: 10
+shivanshi@shivanshi-VirtualBox:~/learn/gcc/preprocessor$ gcc -DSQUARE_FORMULA 
+preprocessor_1c.c
+shivanshi@shivanshi-VirtualBox:~/learn/gcc/preprocessor$ ./a.out
+Number: 5
+Result: 25
+--------------------------------------------------------------------------------
+**note:
+-------
+********************************
+#define SQUARE_FORMULA
+#ifdef SQUARE_FORMULA
+#define FORMULA(x) SQUARE(x
+********************************
+if we add the above ' #define SQUARE_FORMULA ' then we do not have to write
+' gcc -DSQUARE_FORMULA preprocessor_1c.c 'as it will automaticaly define the 
+statement and print the square
+
+Overall, the preprocessor in C allows you to customize and optimize your 
+code before it is compiled into machine code. It is a powerful tool that can 
+help you manage complexity and improve the efficiency of your C projects.
+
