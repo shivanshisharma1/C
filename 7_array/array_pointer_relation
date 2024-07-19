@@ -1,0 +1,195 @@
+POINTERS AND ARRAY
+-------------------
+Understanding the connection between pointers and arrays requires us to start 
+with the concept of defining a variable, such as int i = 5. 
+In this scenario, the 4-byte integer variable allocates four memory locations, 
+each consisting of 8 bits (1 byte = 8 bits). 
+When we convert the decimal value 5 to binary, we get 101. 
+// by 0 = 0 0
+//    1 = 0 1
+//    2 = 1 0
+//    3 = 1 1
+//    4 = 100
+//    5 = 101  an so on ......  
+This binary value is then stored in memory locations identified by hexadecimal 
+addresses, with any remaining space filled with 0s.
+
+00000000   00000000  00000000  00000101
+--------   --------  --------  --------
+1st byte   2nd byte  3rd byte  4th byte
+(8 bits)   (8 bits)  (8 bits)  (8 bits)
+ *7001*     *7001*    *7002*    *7003*  = assumed address. 
+The order in which the value is entered does not affect the fact that the least
+address will always be the most significant byte (MSB), while the highest 
+address will be the least significant. For instance, if you input the number 5 
+in eight places (0000 0005), or the name "pihu" as "p i h u _ _ _ _" in any 
+configuration, 7001 will serve as the MSB.
+ 
+We attempt to store an array similarly. Let's consider an array with a length of
+5, such as arr[]={1,2,3,4,5}. The computer will allocate 5 addresses, each being
+4 bytes. Furthermore, each byte is divided into 8 bits.
+int arr[] = { 1, 2 ,3 ,4 ,5 }
+every value is of 4 byte each in each byte the value is stored the same 
+way as above (int i=5)        
+           ____   ____   ____   ____   ____
+address:   7000   7001   7002   7003   7004
+value:       1      2      3      4      5
+
+Now to be able to see what pointers have got to do with arrays, let us
+first learn some pointer arithmetic. Consider the following
+example: 
+********************************************************************************
+program example 1:
+---------------------
+main( )
+
+{
+ int i = 3, *x ;
+ float j = 1.5, *y ;
+ char k = 'c', *z ;
+ printf ( "\nValue of i = %d", i ) ;
+ printf ( "\nValue of j = %f", j ) ;
+ printf ( "\nValue of k = %c", k ) ;
+ x = &i ;
+ y = &j ;
+ z = &k ;
+ printf ( "\nOriginal address in x = %u", x ) ;
+ printf ( "\nOriginal address in y = %u", y ) ;
+ printf ( "\nOriginal address in z = %u", z ) ;
+ x++ ;
+ y++ ;
+ z++ ;
+ printf ( "\nNew address in x = %u", x ) ;
+ printf ( "\nNew address in y = %u", y ) ;
+ printf ( "\nNew address in z = %u", z ) ;
+}
+
+********************************************************************************
+Here is the output of the program.
+----------------------------------
+280 Let Us C
+Value of i = 3
+Value of j = 1.500000
+Value of k = c
+Original address in x = 65524
+Original address in y = 65520
+Original address in z = 65519
+New address in x = 65526
+New address in y = 65524
+New address in z = 65520 
+********************************************************************************
+
+here you can see that by using the address and expressing it in pointer when i 
+incremented the pointer by one it got four places forward 
+as int occupy four byte in the memory 
+
+now lets take small example to understand pointer and array
+********************************************************************************
+main( )
+{
+ int arr[ ] = { 10, 20, 36, 72, 45, 36 } ;
+ int *j, *k ;
+ j = &arr [ 4 ] ;
+ k = ( arr + 4 ) ;
+ if ( j == k )
+ printf ( "The two pointers point to the same location" ) ;
+ else
+ printf ( "The two pointers do not point to the same location" ) ;
+} 
+
+*******************************************************************************
+here:- 
+In this instance, the result will display "the pointers to the same location". 
+It is evident that by treating the array as a pointer, it yields the same value
+. Similar to a pointer, the array can be utilized by storing the address of a 
+value and then processing it; thus, we can assert that arrays can be pointers. 
+
+int *j, *k ;
+--------------
+In this context, "int *j *k" doesn't represent its value, but the asterisk (*) 
+is employed to define this pointer and its address.
+
+whereas , j = &arr [ 4 ] ; is called dereference ,as it obtain the address of a 
+data item held in another location from (a pointer).Therefore, we can say that 
+a variable first changes into an address and then operates as a pointer or value
+This means that all the following notations are same for the compiler as either 
+way it first turn everything into address and then proceed.
+num[i]
+*( num + i )
+*( i + num )
+i[num] are taken same by the compiler as it first changes everything in address
+we can say that a[0] = *( a + 0 )
+                a[3] = *( a + 3 ) meaning value of a at 0 and 3rd position respe
+ctively as an array and pointer.
+
+**2D ARRAY**
+  ---------
+--------------------------------------------------------------------------------
+int stud[4][2] = {
+ { 1 , 2 },
+ { 3 , 4 },
+ { 5 , 6 },
+ { 7 , 8 }
+ } ; 
+--------------------------------------------------------------------------------
+when we write a 2d program we write above and stud[x][y] tells value of the 
+address of x = row and y = column 
+but how it gets stored in computer is as follows
+
+--------------------------------------------------------------------------------
+array position : s[0][0] s[0][1] s[1][0] s[1][1] s[2][0] s[2][1] s[3][0] s[3][1]
+value:                1       2      3       4       5       6       7       8
+address:             7000    7001   7002    7003    7004    7005    7006    7007
+--------------------------------------------------------------------------------
+
+hence when we type array [2][1] where 2 and 1 are x and y then it enters 
+in form of ;-
+--------------------------------------------------------------------------------
+        address + (no. of row * maximum no. of row ) + no. of column
+==        a + ( x * 2 ) + y
+--------------------------------------------------------------------------------
+and it enters the same way when expressed as a pointer * ( * ( s + 2 ) + 1 ) 
+hence
+s[2][1]
+* ( s[2] + 1 )
+* ( * ( s + 2 ) + 1 )     
+are all the same.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
