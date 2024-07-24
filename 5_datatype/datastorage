@@ -1,0 +1,75 @@
+Today, let's explore the different types of storage in a computer. We have two 
+main types of storage: permanent, which is the hard disk where data is stored 
+once saved, and temporary, which includes RAM , the memory where we code. 
+
+Let's focus on RAM today. RAM contains various types of memory, each of which
+takes up chunks of memory stored in a specific order. Whenever we execute the 
+directive ./a.out, all types of memory are activated, and the memory is stored 
+in the respective type until the program finishes. If we execute another instace
+of the same program, different memroy addresses in the RAM will be used.
+ 
+Now, let's discuss the types of memory and the order in which they are stored:
+1. Data segment: global variables
+2. Text segment: code (if, while, add, subtract, shift...all operations)
+3. Stack segment: function local variables
+4. Heap segment: dynamic memory allocation (malloc)
+5. BSS segment: uninitialized global variables
+
+********************************************************************************
+
+|               |
+|               |
+|               |
+|               |
+|               |-----------> RAM
+|               | 
+|               | 
+|               | 
+|               |
+|               |
+|---------------|\ 
+|data segment   | \
+|---------------|
+|text segment   |  \
+|stack segment  |   \
+|heap segment   |   /every time ./a.out (program) directive is given this memory
+|bss segment    |  / space with these types are called till the program ends.
+|---------------| /  This is called a 'Process'.
+|_______________|/
+|               |    Process = A program in execution
+|               |
+|               |
+|               |
+|               |
+|               |
+|               |
+|               |
+
+********************************************************************************
+Let's discuss some important keywords from the text provided:
+
+Global variable: These variables are initialized and given a value before the 
+start of the program, even before the main function. They are available to every
+function within the code. Any changes made to this variable are reflected across
+all functions. For example, if we initialize a variable as int i=7 and a 
+function, let's call it func A, changes the value to 3, then the value obtained 
+by another function, func B, would also be 3 due to the carried forward change.
+ 
+Code: This includes the arguments and code that are already known to the 
+compiler, such as if, while, for, and so on.
+
+Local variables: These are variables defined locally inside a function and can 
+only be accessed by that specific function, not by others. These variables are
+created inside stack memory of a process.
+
+Dynamic memory allocation: This refers to memory that is assigned when the 
+required space or memory is unknown. For example, in the use of the malloc 
+function, we provide the length and it allocates the space accordingly. 
+This allows the program to obtain memory as needed without having to specify 
+data before the program starts. After the program is complete, we use the free()
+function to release the allocated memory.
+
+Uninitialized global variable: Similar to a global variable, the difference lies
+in the fact that the value of the variable is not initialized. For example, a 
+global variable is initialized as int i=5; while an uninitialized global 
+variable is declared as int i; without an assigned value.
